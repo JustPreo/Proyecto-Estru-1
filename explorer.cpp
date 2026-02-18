@@ -17,10 +17,9 @@ Explorer::Explorer(QWidget *parent)
     connect(ui->listWidget, &QListWidget::itemDoubleClicked,
             this, &Explorer::onItemDoubleClicked);
 
-    // Cargar sistema si existe
+    // Cargar sistema si existe el arhicvo
     fs.loadFromBin();
 
-    // Iniciar historial en root
     history.visit(fs.getRoot());
 
     refreshView();
@@ -31,7 +30,6 @@ Explorer::~Explorer()
     delete ui;
 }
 
-// ---------------- NAVIGATION ----------------
 
 void Explorer::on_BackButton_clicked()
 {
@@ -50,8 +48,6 @@ void Explorer::on_NextButton_clicked()
         refreshView();
     }
 }
-
-// ---------------- CONTEXT MENU ----------------
 
 void Explorer::showContextMenu(const QPoint &pos)
 {
@@ -74,19 +70,11 @@ void Explorer::showContextMenu(const QPoint &pos)
     }
 }
 
-// ---------------- CREATE FOLDER ----------------
-
 void Explorer::createFolder()
 {
     bool ok;
     QString name = QInputDialog::getText(
-        this,
-        "Nueva carpeta",
-        "Nombre:",
-        QLineEdit::Normal,
-        "",
-        &ok
-        );
+        this,"Nueva carpeta","Nombre:",QLineEdit::Normal,"",&ok);
 
     if (!ok || name.isEmpty())
         return;
@@ -96,19 +84,11 @@ void Explorer::createFolder()
     refreshView();
 }
 
-// ---------------- CREATE FILE ----------------
 
 void Explorer::createFile()
 {
     bool ok;
-    QString name = QInputDialog::getText(
-        this,
-        "Nuevo archivo",
-        "Nombre:",
-        QLineEdit::Normal,
-        "",
-        &ok
-        );
+    QString name = QInputDialog::getText(this,"Nuevo archivo","Nombre:",QLineEdit::Normal,"",&ok);
 
     if (!ok || name.isEmpty())
         return;
@@ -118,7 +98,6 @@ void Explorer::createFile()
     refreshView();
 }
 
-// ---------------- REFRESH VIEW ----------------
 
 void Explorer::refreshView()
 {
@@ -132,7 +111,7 @@ void Explorer::refreshView()
         QString displayName = child->name;
 
         if (child->isFolder()) {
-            displayName = "[DIR] " + displayName;
+            displayName = "[DIR] " + displayName;//Osea si es dir
         }
 
         ui->listWidget->addItem(displayName);
@@ -141,13 +120,12 @@ void Explorer::refreshView()
     ui->CosoPath->setText(current->name);
 }
 
-// ---------------- DOUBLE CLICK ----------------
 
 void Explorer::onItemDoubleClicked(QListWidgetItem* item)
 {
     QString text = item->text();
 
-    if (text.startsWith("[DIR] ")) {
+    if (text.startsWith("[DIR] ")) {//Osea si es dir
         text = text.mid(6);
     }
 
