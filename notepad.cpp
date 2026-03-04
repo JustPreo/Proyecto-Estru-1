@@ -1,23 +1,24 @@
 #include "notepad.h"
-#include "ui_notepad.h"
+#include "ui_notepad.h"   // ← ESTA LINEA ES CLAVE
 
-#include <QFileDialog>
-#include <QCoreApplication>
-#include <QFile>
-#include <QTextStream>
 #include <QMessageBox>
-#include <QFileInfo>
-#include <QDir>
 
-notepad::notepad(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+notepad::notepad(File* file, QWidget *parent)
+    : QMainWindow(parent),
+    ui(new Ui::Notepad),
+    currentFile(file)
 {
     ui->setupUi(this);
 
-    QDir dir(QCoreApplication::applicationDirPath());
-    if (!dir.exists("data")) {
-        dir.mkdir("data");
+    if (currentFile != NULL)
+    {
+        ui->textEdit->setPlainText(
+            QString::fromStdString(currentFile->content)
+            );
+
+        setWindowTitle(
+            QString::fromStdString(currentFile->name)
+            );
     }
 }
 
@@ -28,28 +29,11 @@ notepad::~notepad()
 
 void notepad::on_actionSave_triggered()
 {
-    QString basePath = QCoreApplication::applicationDirPath();
-
-    QString filePath = QFileDialog::getSaveFileName(
-        this,
-        "Guardar archivo",
-        basePath,
-        "Archivos de texto (*.txt)"
-        );
-
-    if (filePath.isEmpty())
+    if (currentFile == NULL)
         return;
 
-    QFile file(filePath);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Error", "No se pudo guardar el archivo");
-        return;
-    }
+    currentFile->content =
+        ui->textEdit->toPlainText().toStdString();
 
-    QTextStream out(&file);
-    out << ui->textEdit->toPlainText();
-    file.close();
-
-    QFileInfo info(filePath);
-    setWindowTitle(info.fileName());
+    QMessageBox::information(this, "Guardado", "Archivo guardado");
 }

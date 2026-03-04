@@ -1,56 +1,86 @@
 # ninja log v6
-12	160	7930756239788085	PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-12	160	7930756239788085	PROYECTO_autogen/timestamp	ead92631bb209945
-713	4413	7930753311273743	CMakeFiles/PROYECTO.dir/main.cpp.obj	974be4ba0b1dd5f9
-12	160	7930756239788085	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/timestamp	ead92631bb209945
-12	160	7930756239788085	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-710	4484	7930753311243786	CMakeFiles/PROYECTO.dir/PROYECTO_autogen/mocs_compilation.cpp.obj	23acdb8bb351d0d9
-3498	3838	7930756274654134	PROYECTO.exe	67fa7c8018897406
-256	3747	7916172125529932	CMakeFiles/PROYECTO.dir/mainwindow.cpp.obj	e0ae444d96b03ba4
-646	3956	7930687590366507	CMakeFiles/PROYECTO.dir/historynode.cpp.obj	3f9b8350e37c86f7
-633	3508	7930718862617974	CMakeFiles/PROYECTO.dir/historylist.cpp.obj	ed73b5decae99832
-671	3910	7922889867357619	CMakeFiles/PROYECTO.dir/node.cpp.obj	4ffcc81754b2dab
-165	3497	7930756241323839	CMakeFiles/PROYECTO.dir/explorer.cpp.obj	5a99cde31b4fed72
-161	3149	7930756241287239	CMakeFiles/PROYECTO.dir/notepad.cpp.obj	4d1df9780f07f740
-726	3992	7930753311401577	CMakeFiles/PROYECTO.dir/filesystem.cpp.obj	7526ff3585b2a129
-12	173	7930756496855745	PROYECTO_autogen/timestamp	ead92631bb209945
-12	173	7930756496855745	PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-12	173	7930756496855745	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/timestamp	ead92631bb209945
-12	173	7930756496855745	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-174	3279	7930756498475865	CMakeFiles/PROYECTO.dir/notepad.cpp.obj	4d1df9780f07f740
-177	3635	7930756498506052	CMakeFiles/PROYECTO.dir/explorer.cpp.obj	5a99cde31b4fed72
-3636	3986	7930756533088449	PROYECTO.exe	67fa7c8018897406
-12	170	7930758443901373	PROYECTO_autogen/timestamp	ead92631bb209945
-12	170	7930758443901373	PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-12	170	7930758443901373	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/timestamp	ead92631bb209945
-12	170	7930758443901373	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-181	3848	7930758445584433	CMakeFiles/PROYECTO.dir/filesystem.cpp.obj	7526ff3585b2a129
-171	4551	7930758445481497	CMakeFiles/PROYECTO.dir/notepad.cpp.obj	4d1df9780f07f740
-176	4925	7930758445531569	CMakeFiles/PROYECTO.dir/explorer.cpp.obj	5a99cde31b4fed72
-4925	5332	7930758493018525	PROYECTO.exe	67fa7c8018897406
-17	808	7930759688973569	PROYECTO_autogen/timestamp	ead92631bb209945
-17	808	7930759688973569	PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-17	808	7930759688973569	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/timestamp	ead92631bb209945
-17	808	7930759688973569	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-830	5254	7930759689930566	CMakeFiles/PROYECTO.dir/filesystem.cpp.obj	7526ff3585b2a129
-814	5438	7930759689770397	CMakeFiles/PROYECTO.dir/main.cpp.obj	974be4ba0b1dd5f9
-809	5641	7930759689732228	CMakeFiles/PROYECTO.dir/PROYECTO_autogen/mocs_compilation.cpp.obj	23acdb8bb351d0d9
-819	6026	7930759689830379	CMakeFiles/PROYECTO.dir/notepad.cpp.obj	4d1df9780f07f740
-824	6321	7930759689883992	CMakeFiles/PROYECTO.dir/explorer.cpp.obj	5a99cde31b4fed72
-6321	6697	7930759744838985	PROYECTO.exe	67fa7c8018897406
-12	169	7930760003676080	PROYECTO_autogen/timestamp	ead92631bb209945
-12	169	7930760003676080	PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-12	169	7930760003676080	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/timestamp	ead92631bb209945
-12	169	7930760003676080	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-170	4015	7930760005251386	CMakeFiles/PROYECTO.dir/notepad.cpp.obj	4d1df9780f07f740
-174	4444	7930760005293449	CMakeFiles/PROYECTO.dir/explorer.cpp.obj	5a99cde31b4fed72
-4445	4793	7930760047994798	PROYECTO.exe	67fa7c8018897406
-33	1487	7930802100226580	PROYECTO_autogen/timestamp	ead92631bb209945
-33	1487	7930802100226580	PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-33	1487	7930802100226580	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/timestamp	ead92631bb209945
-33	1487	7930802100226580	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/PROYECTO_autogen/mocs_compilation.cpp	ead92631bb209945
-1489	6320	7930802101849881	CMakeFiles/PROYECTO.dir/PROYECTO_autogen/mocs_compilation.cpp.obj	23acdb8bb351d0d9
-1495	6486	7930802101910403	CMakeFiles/PROYECTO.dir/main.cpp.obj	974be4ba0b1dd5f9
-1505	6666	7930802102018135	CMakeFiles/PROYECTO.dir/explorer.cpp.obj	5a99cde31b4fed72
-1500	6734	7930802101960363	CMakeFiles/PROYECTO.dir/notepad.cpp.obj	4d1df9780f07f740
-6734	7084	7930802154309102	PROYECTO.exe	67fa7c8018897406
+14	747	7942976304898995	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+5159	5505	7942976349790975	untitled1.exe	a6469133c93d8c8f
+14	747	7942976304898995	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+14	747	7942976304898995	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+14	747	7942976304898995	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+756	5159	7942976305757175	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+748	4546	7942976305677065	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	136c7250c4d48a3c
+752	4419	7942976305717160	CMakeFiles/untitled1.dir/main.cpp.obj	4b992d703716ef38
+36	45	7942940038431048	clean	577b940aee94fbd7
+1039	1847	7942940049699991	CMakeFiles/untitled1.dir/originfile.cpp.obj	98d4f2c006411153
+763	4085	7942976305824340	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+1045	1838	7942940049750005	CMakeFiles/untitled1.dir/file.cpp.obj	db82044fa052ac81
+935	1844	7942963955238559	CMakeFiles/untitled1.dir/directory.cpp.obj	883ec4571a6e4a53
+8	35	7942940038151988	CMakeFiles/clean.additional	baedbe210acaa455
+15	571	7942979003313456	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+15	571	7942979003313456	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+15	571	7942979003313456	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+15	571	7942979003313456	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+581	4009	7942979008970311	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+573	5125	7942979008895105	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+5126	5696	7942979054415575	untitled1.exe	a6469133c93d8c8f
+14	922	7942986501107467	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+14	922	7942986501107467	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+14	922	7942986501107467	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+14	922	7942986501107467	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+938	4501	7942986502542794	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+928	4858	7942986502433507	CMakeFiles/untitled1.dir/main.cpp.obj	4b992d703716ef38
+924	4975	7942986502396501	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	136c7250c4d48a3c
+933	5707	7942986502473498	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+5707	6090	7942986550223732	untitled1.exe	a6469133c93d8c8f
+15	806	7942994107823647	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+15	806	7942994107823647	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+15	806	7942994107823647	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+15	806	7942994107823647	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+832	1772	7942994108841461	CMakeFiles/untitled1.dir/directory.cpp.obj	883ec4571a6e4a53
+826	5137	7942994108771013	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+813	5566	7942994108652528	CMakeFiles/untitled1.dir/main.cpp.obj	4b992d703716ef38
+807	5632	7942994108592067	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	136c7250c4d48a3c
+819	6298	7942994108697304	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+17	257	7942995149740030	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+17	257	7942995149740030	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+17	257	7942995149740030	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+17	257	7942995149740030	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+264	3789	7942995152207936	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+259	4917	7942995152157861	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+13	187	7942997366018270	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+13	187	7942997366018270	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+13	187	7942997366018270	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+13	187	7942997366018270	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+192	3075	7942997367806446	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+188	4159	7942997367766016	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+15	800	7942998023952719	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+15	800	7942998023952719	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+15	800	7942998023952719	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+15	800	7942998023952719	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+814	4322	7942998024790018	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+805	5040	7942998024700358	CMakeFiles/untitled1.dir/main.cpp.obj	4b992d703716ef38
+801	5052	7942998024660094	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	136c7250c4d48a3c
+809	5776	7942998024740034	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+14	185	7943000828310741	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+14	185	7943000828310741	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+14	185	7943000828310741	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+14	185	7943000828310741	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+191	2972	7943000830094051	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+186	4069	7943000830043989	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+4069	4432	7943000868863119	untitled1.exe	a6469133c93d8c8f
+16	231	7943009577103460	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+16	231	7943009577103460	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+16	231	7943009577103460	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+16	231	7943009577103460	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+238	4235	7943009579327483	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+232	5582	7943009579272407	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+5582	6039	7943009632763149	untitled1.exe	a6469133c93d8c8f
+24	1633	7943014550269972	untitled1_autogen/timestamp	55ea0d7d452bf5a9
+24	1633	7943014550269972	untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+24	1633	7943014550269972	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/timestamp	55ea0d7d452bf5a9
+24	1633	7943014550269972	C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/untitled1_autogen/mocs_compilation.cpp	55ea0d7d452bf5a9
+1664	2645	7943014551824599	CMakeFiles/untitled1.dir/originfile.cpp.obj	98d4f2c006411153
+1677	2699	7943014551956350	CMakeFiles/untitled1.dir/directory.cpp.obj	883ec4571a6e4a53
+1670	2700	7943014551876274	CMakeFiles/untitled1.dir/file.cpp.obj	db82044fa052ac81
+1657	6983	7943014551758969	CMakeFiles/untitled1.dir/notepad.cpp.obj	84f6a5d2a997ccc1
+1644	7551	7943014551632968	CMakeFiles/untitled1.dir/main.cpp.obj	4b992d703716ef38
+1635	7637	7943014551537719	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	136c7250c4d48a3c
+1650	8494	7943014551693040	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	7af4080b059cac67
+8494	8920	7943014620127896	untitled1.exe	a6469133c93d8c8f
