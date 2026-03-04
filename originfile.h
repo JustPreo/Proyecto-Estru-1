@@ -11,7 +11,7 @@ public:
     OriginFile(string name);
     virtual ~OriginFile() {}
 
-    virtual bool isDirectory() = 0;//obligatorio
+    virtual bool isDirectory() = 0;//si o si ocupo tenerlo
 };
 
 #endif

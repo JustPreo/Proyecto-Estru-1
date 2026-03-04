@@ -1,5 +1,5 @@
 #include "notepad.h"
-#include "ui_notepad.h"   // ← ESTA LINEA ES CLAVE
+#include "ui_notepad.h"
 
 #include <QMessageBox>
 

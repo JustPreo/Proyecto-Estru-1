@@ -90,8 +90,9 @@ void MainWindow::refreshTree()
     addToTree(currentDir,NULL);
 }
 
-void MainWindow::addToTree(Directory* dir,QTreeWidgetItem* parent)
-{
+void MainWindow::addToTree(Directory* dir,QTreeWidgetItem* parent) //es el arbol , oel insert de un arbol
+{   //funcion que recorre todo
+
     QTreeWidgetItem* item;
 
     if(parent==NULL)
@@ -122,7 +123,7 @@ void MainWindow::addToTree(Directory* dir,QTreeWidgetItem* parent)
     }
 }
 
-bool MainWindow::nameExists(string name)
+bool MainWindow::nameExists(string name) //lo dice el nombre XD
 {
     for(int i=0;i<currentDir->children.size();i++)
         if(currentDir->children[i]->name==name)
@@ -135,12 +136,7 @@ void MainWindow::createFolder()
 {
     bool ok;
 
-    QString text = QInputDialog::getText(this,
-                                         "Nueva Carpeta",
-                                         "Nombre:",
-                                         QLineEdit::Normal,
-                                         "",
-                                         &ok);
+    QString text = QInputDialog::getText(this,"Nueva Carpeta", "Nombre:", QLineEdit::Normal,"", &ok);
 
     if(!ok || text.isEmpty())
         return;
@@ -165,11 +161,7 @@ void MainWindow::createFile()
     bool ok;
 
     QString text = QInputDialog::getText(this,
-                                         "Nuevo Archivo",
-                                         "Nombre:",
-                                         QLineEdit::Normal,
-                                         "",
-                                         &ok);
+ "Nuevo Archivo", "Nombre:", QLineEdit::Normal, "", &ok);
 
     if(!ok || text.isEmpty())
         return;
@@ -189,7 +181,7 @@ void MainWindow::createFile()
     refreshTree();
 }
 
-void MainWindow::showContextMenu(QPoint pos)
+void MainWindow::showContextMenu(QPoint pos) //context menu shows
 {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
     if(!item) return;
@@ -259,7 +251,7 @@ void MainWindow::showContextMenu(QPoint pos)
     }
 }
 
-void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
+void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int) //como en java , el on item clicked
 {
     QVariant data = item->data(0,Qt::UserRole);
 
@@ -288,7 +280,8 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
     ui->plainTextEdit->setPlainText(info);
 }
 
-void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item,int)
+void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item,int) //estructura java
+//se encarga de meterse
 {
     QVariant data = item->data(0,Qt::UserRole);
 
@@ -323,6 +316,7 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item,int)
 }
 void MainWindow::on_treeView_itemClicked(QTreeWidgetItem* item,int)
 {
+    //es para el lado izquierdo
     QVariant type = item->data(0,Qt::UserRole);
 
     if(!type.isValid())
@@ -351,6 +345,8 @@ void MainWindow::on_treeView_itemClicked(QTreeWidgetItem* item,int)
         refreshTree();
     }
 }
+
+///aqui empeiza el historial
 
 void MainWindow::on_backButton_clicked()
 {
@@ -387,6 +383,7 @@ void MainWindow::on_goToFatherButton_clicked()
     refreshTree();
 }
 
+//sistema de guardado
 void MainWindow::saveBinary()
 {
     std::ofstream out("filesystem.bin", std::ios::binary);
@@ -522,6 +519,8 @@ OriginFile* MainWindow::loadNode(std::ifstream& in)
         return file;
     }
 }
+
+//sistema de cargado adicional
 
 void MainWindow::collectFavorites(Directory* dir)
 {
