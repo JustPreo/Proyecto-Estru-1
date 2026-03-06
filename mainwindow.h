@@ -55,14 +55,17 @@ private:
 
     void createFolder();
     void createFile();
+    void restoreNode(OriginFile* node);
 
     bool nameExists(std::string name);
 
     void saveBinary();
     bool loadBinary();
 
+    string getUniqueName(string name);
     void collectFavorites(Directory* dir);
-
+    string getCurrentPath();
+    string buildPath(OriginFile* node);
     void saveNode(std::ofstream& out, OriginFile* node);
     OriginFile* loadNode(std::ifstream& in);
 };

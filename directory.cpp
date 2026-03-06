@@ -3,7 +3,6 @@
 Directory::Directory(string name)
     : OriginFile(name)
 {
-    this->parent = NULL;
 }
 
 bool Directory::isDirectory()

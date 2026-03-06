@@ -10,7 +10,6 @@ class Directory : public OriginFile
 {
 public:
     vector<OriginFile*> children;
-    Directory* parent;
     Directory(string name);
     bool isDirectory();
     ~Directory();

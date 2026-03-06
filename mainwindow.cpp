@@ -65,10 +65,14 @@ void MainWindow::refreshNavigation()
     rootItem->setText(0,"ROOT");
     rootItem->setData(0,Qt::UserRole,"root");
     rootItem->setData(0,Qt::UserRole+1,QVariant::fromValue((void*)root));
+    rootItem->setIcon(0,style()->standardIcon(QStyle::SP_DriveHDIcon));
 
     QTreeWidgetItem* favItem = new QTreeWidgetItem(ui->treeView);
-    favItem->setText(0,"FAVORITES");
+    favItem->setText(0,"Favorites");
+    favItem->setIcon(0,style()->standardIcon(QStyle::SP_DirHomeIcon));
     favItem->setData(0,Qt::UserRole,"favorites");
+    favItem->setExpanded(true);
+    favItem->setFlags(Qt::ItemIsEnabled);
 
     for(int i=0;i<favorites.size();i++)
     {
@@ -76,12 +80,14 @@ void MainWindow::refreshNavigation()
         item->setText(0,QString::fromStdString(favorites[i]->name));
         item->setData(0,Qt::UserRole,"dir");
         item->setData(0,Qt::UserRole+1,QVariant::fromValue((void*)favorites[i]));
+        item->setIcon(0,style()->standardIcon(QStyle::SP_DirIcon));
     }
 
     QTreeWidgetItem* trashItem = new QTreeWidgetItem(ui->treeView);
     trashItem->setText(0,"TRASH");
     trashItem->setData(0,Qt::UserRole,"trash");
     trashItem->setData(0,Qt::UserRole+1,QVariant::fromValue((void*)trashDir));
+    trashItem->setIcon(0,style()->standardIcon(QStyle::SP_TrashIcon));
 }
 
 void MainWindow::refreshTree()
@@ -145,11 +151,11 @@ void MainWindow::createFolder()
 
     if(nameExists(name))
     {
-        QMessageBox::warning(this,"Error","Nombre repetido");
-        return;
+        name = getUniqueName(name);
     }
 
     Directory* newDir = new Directory(name);
+    newDir->parent = currentDir;
     currentDir->children.push_back(newDir);
 
     saveBinary();
@@ -170,12 +176,107 @@ void MainWindow::createFile()
 
     if(nameExists(name))
     {
-        QMessageBox::warning(this,"Error","Nombre repetido");
-        return;
+        name = getUniqueName(name);
     }
 
     File* newFile = new File(name);
+    newFile->parent = currentDir;
     currentDir->children.push_back(newFile);
+
+    saveBinary();
+    refreshTree();
+}
+
+void MainWindow::restoreNode(OriginFile* node)
+{
+    vector<string> pathParts;
+    string temp = node->originalPath;
+    string current = "";
+
+    for(int i=0;i<temp.size();i++)
+    {
+        if(temp[i]=='/')
+        {
+            if(!current.empty())
+            {
+                pathParts.push_back(current);
+                current="";
+            }
+        }
+        else
+            current+=temp[i];
+    }
+
+    if(!current.empty())
+        pathParts.push_back(current);
+
+    Directory* dir = root;
+
+    if(pathParts.size() == 0)//osea si es /
+        return;
+    for(int i=0;i<pathParts.size()-1;i++)
+    {
+        bool found=false;
+
+        for(int j=0;j<dir->children.size();j++)
+        {
+            if(dir->children[j]->isDirectory() &&
+                dir->children[j]->name == pathParts[i])
+            {
+                dir = (Directory*)dir->children[j];
+                found=true;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            Directory* newDir = new Directory(pathParts[i]);
+            newDir->parent = dir;
+            dir->children.push_back(newDir);
+            dir = newDir;
+        }
+    }
+
+    string newName = node->name;
+
+    int copyIndex = 1;
+
+    while(true)
+    {
+        bool exists=false;
+
+        for(int i=0;i<dir->children.size();i++)
+        {
+            if(dir->children[i]->name == newName)
+            {
+                exists=true;
+                break;
+            }
+        }
+
+        if(!exists)
+            break;
+
+        newName = node->name + "_copy";
+        if(copyIndex>1)
+            newName += std::to_string(copyIndex);
+
+        copyIndex++;
+    }
+
+    node->name = newName;
+    node->parent = dir;
+    dir->children.push_back(node);
+
+    for(int i=0;i<trashDir->children.size();i++)
+    {
+        if(trashDir->children[i] == node)
+        {
+            trashDir->children.erase(trashDir->children.begin()+i);
+            break;
+        }
+    }
 
     saveBinary();
     refreshTree();
@@ -193,13 +294,18 @@ void MainWindow::showContextMenu(QPoint pos) //context menu shows
 
     QAction* createFileAction = menu.addAction("Create File");
     QAction* createFolderAction = menu.addAction("Create Folder");
-    QAction* deleteAction = menu.addAction("Delete");
-
+    QAction* deleteAction = NULL;
+    QAction* restoreAction = NULL;
     QAction* favoriteAction = NULL;
 
     if(node->isDirectory())
         favoriteAction = menu.addAction("Add to Favorites");
 
+    if(currentDir == trashDir)
+        restoreAction = menu.addAction("Restore");
+
+    if (currentDir != trashDir)
+        deleteAction = menu.addAction("Delete");
     QAction* selected = menu.exec(ui->treeWidget->mapToGlobal(pos));
 
     if(selected==createFileAction)
@@ -219,9 +325,14 @@ void MainWindow::showContextMenu(QPoint pos) //context menu shows
         refreshNavigation();
     }
 
+    else if(selected == restoreAction)
+    {
+        restoreNode(node);
+    }
+
     else if(selected==deleteAction)
     {
-        if(currentDir==trashDir)
+        /*if(currentDir==trashDir)
         {
             for(int i=0;i<trashDir->children.size();i++)
             {
@@ -232,23 +343,50 @@ void MainWindow::showContextMenu(QPoint pos) //context menu shows
                     break;
                 }
             }
-        }
-        else
-        {
-            for(int i=0;i<currentDir->children.size();i++)
+        }*/
+
+            if(currentDir == trashDir){
+                return;
+            }
+
+            else//Soft delete solamente
             {
-                if(currentDir->children[i]==node)
+                Directory* parent = (Directory*)node->parent;
+
+                if(parent == NULL)
+                    return;
+
+                for(int i=0;i<parent->children.size();i++)
                 {
-                    trashDir->children.push_back(node);
-                    currentDir->children.erase(currentDir->children.begin()+i);
-                    break;
+                    if(parent->children[i]==node)
+                    {
+                        node->originalPath = buildPath(node);
+
+                        for(int j=0;j<favorites.size();j++)
+                        {
+                            if(favorites[j] == node)
+                            {
+                                favorites.erase(favorites.begin()+j);
+                                break;
+                            }
+                        }
+
+                        parent->children.erase(parent->children.begin()+i);
+
+                        node->parent = trashDir;
+                        trashDir->children.push_back(node);
+
+                        break;
+                    }
                 }
             }
-        }
 
         saveBinary();
         refreshTree();
-    }
+        refreshNavigation();
+        return;
+
+}
 }
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int) //como en java , el on item clicked
@@ -378,7 +516,7 @@ void MainWindow::on_goToFatherButton_clicked()
 
     backHistory.push(currentDir);
 
-    currentDir = currentDir->parent;
+    currentDir = (Directory*)currentDir->parent;
 
     refreshTree();
 }
@@ -421,6 +559,7 @@ bool MainWindow::loadBinary()
     for(int i=0;i<trashCount;i++)
     {
         OriginFile* node = loadNode(in);
+        node->parent = trashDir;
         trashDir->children.push_back(node);
     }
 
@@ -444,6 +583,10 @@ void MainWindow::saveNode(std::ofstream& out,OriginFile* node)
     out.write(node->name.c_str(),nameSize);
     bool fav = node->isFavorite;
     out.write((char*)&fav,sizeof(bool));
+
+    int pathSize = node->originalPath.size();
+    out.write((char*)&pathSize,sizeof(int));
+    out.write(node->originalPath.c_str(),pathSize);
 
     if(isDir)
     {
@@ -484,19 +627,28 @@ OriginFile* MainWindow::loadNode(std::ifstream& in)
     bool fav;
     in.read((char*)&fav,sizeof(bool));
 
+    int pathSize;
+    in.read((char*)&pathSize,sizeof(int));
 
-    delete[] buffer;
+    char* pathBuffer = new char[pathSize+1];
+    in.read(pathBuffer,pathSize);
+    pathBuffer[pathSize]='\0';
+
+    string originalPath(pathBuffer);
+    delete[] pathBuffer;
 
     if(isDir)
     {
         Directory* dir=new Directory(name);
         dir->isFavorite = fav;
+        dir->originalPath = originalPath;
         int count;
         in.read((char*)&count,sizeof(int));
 
         for(int i=0;i<count;i++)
         {
             OriginFile* child=loadNode(in);
+            child->parent = dir;
             dir->children.push_back(child);
         }
 
@@ -506,6 +658,7 @@ OriginFile* MainWindow::loadNode(std::ifstream& in)
     {
         File* file=new File(name);
         file->isFavorite = fav;
+        file->originalPath = originalPath;
         int contentSize;
         in.read((char*)&contentSize,sizeof(int));
 
@@ -520,11 +673,27 @@ OriginFile* MainWindow::loadNode(std::ifstream& in)
     }
 }
 
+string MainWindow::getUniqueName(string name)
+{
+    string newName = name;
+    int copyIndex = 1;
+
+    while(nameExists(newName))
+    {
+        newName = name + "_copy";
+        if(copyIndex>1)
+            newName += std::to_string(copyIndex);
+        copyIndex++;
+    }
+
+    return newName;
+}
+
 //sistema de cargado adicional
 
 void MainWindow::collectFavorites(Directory* dir)
 {
-    if(dir->isFavorite)
+    if(dir->isFavorite && dir->isDirectory())
         favorites.push_back(dir);
 
     for(int i=0;i<dir->children.size();i++)
@@ -532,4 +701,34 @@ void MainWindow::collectFavorites(Directory* dir)
         if(dir->children[i]->isDirectory())
             collectFavorites((Directory*)dir->children[i]);
     }
+}
+
+
+string MainWindow::getCurrentPath()
+{
+    Directory* temp = currentDir;
+    string path = "";
+
+    while(temp != NULL)
+    {
+        path = "/" + temp->name + path;
+        temp = (Directory*)temp->parent;
+    }
+
+    return path;
+}
+
+string MainWindow::buildPath(OriginFile* node)
+{
+    string path = node->name;
+
+    Directory* p = (Directory*)node->parent;
+
+    while(p != NULL)
+    {
+        path = p->name + "/" + path;
+        p = (Directory*)p->parent;
+    }
+
+    return path;
 }

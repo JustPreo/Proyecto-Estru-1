@@ -8,6 +8,8 @@ class OriginFile {
 public:
     string name;
     bool isFavorite;
+    string originalPath;
+    OriginFile* parent;
     OriginFile(string name);
     virtual ~OriginFile() {}
 
