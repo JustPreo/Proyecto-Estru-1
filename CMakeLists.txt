@@ -17,6 +17,8 @@ qt_add_executable(untitled1
     originfile.h originfile.cpp
     file.h file.cpp
     directory.h directory.cpp
+    historynode.h historynode.cpp
+    historylist.h historylist.cpp
 )
 
 target_link_libraries(untitled1

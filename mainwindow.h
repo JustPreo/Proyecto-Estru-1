@@ -4,9 +4,10 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 #include <vector>
-#include <stack>
+
 #include <fstream>
 
+#include "HistoryList.h"
 #include "directory.h"
 #include "file.h"
 
@@ -44,18 +45,26 @@ private:
 
     std::vector<Directory*> favorites;
 
-    std::stack<Directory*> backHistory;
-    std::stack<Directory*> forwardHistory;
+    HistoryList history;
 
     void refreshTree();
     void refreshNavigation();
     void updatePath();
 
-    void addToTree(Directory* dir,QTreeWidgetItem* parent);
+    void addToTree(Directory* dir);
 
     void createFolder();
     void createFile();
     void restoreNode(OriginFile* node);
+
+    OriginFile* clipboardNode;//referencia nodo copiado/cut
+    bool clipboardCut;//solo si es cut
+
+    void copyNode(OriginFile* node);
+    void cutNode(OriginFile* node);
+    void pasteNode();
+    OriginFile* cloneNode(OriginFile* node);
+    bool isInside(Directory* target, OriginFile* node);
 
     bool nameExists(std::string name);
 

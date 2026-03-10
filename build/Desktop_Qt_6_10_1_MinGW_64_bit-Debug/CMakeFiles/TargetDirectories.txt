@@ -1,9 +1,0 @@
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/untitled1.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/install.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/untitled1_autogen_timestamp_deps.dir
-C:/Users/elmas/Desktop/ESTRU 1/REPO INGE/estructura-de-datos-i-q1-2026/untitled1/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/untitled1_autogen.dir
