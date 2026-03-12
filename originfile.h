@@ -14,6 +14,10 @@ public:
     virtual ~OriginFile() {}
 
     virtual bool isDirectory() = 0;//si o si ocupo tenerlo
+
+    //cosas de fecha con time_t (mas facil)
+    time_t createdDate;
+    time_t modifiedDate;
 };
 
 #endif

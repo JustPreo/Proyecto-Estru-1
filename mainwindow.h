@@ -19,16 +19,18 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+
+protected:
+    void keyPressEvent(QKeyEvent *event);//Esto es para conseguir teclas - no olvidar agregarlo despues yo del futuro
+    void closeEvent(QCloseEvent *event);//cuando cierra app
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
-
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem*,int);
     void on_treeWidget_itemClicked(QTreeWidgetItem*,int);
     void on_treeView_itemClicked(QTreeWidgetItem*,int);
-
     void showContextMenu(QPoint pos);
 
     void on_backButton_clicked();
@@ -53,6 +55,7 @@ private:
 
     void addToTree(Directory* dir);
 
+    size_t getFolderSize(Directory* dir);
     void createFolder();
     void createFile();
     void restoreNode(OriginFile* node);
@@ -60,6 +63,8 @@ private:
     OriginFile* clipboardNode;//referencia nodo copiado/cut
     bool clipboardCut;//solo si es cut
 
+    //void on_treeWidget_itemPressed(QTreeWidgetItem*,int);
+    void renameNode(OriginFile* node);
     void copyNode(OriginFile* node);
     void cutNode(OriginFile* node);
     void pasteNode();

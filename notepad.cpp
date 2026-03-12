@@ -32,8 +32,10 @@ void notepad::on_actionSave_triggered()
     if (currentFile == NULL)
         return;
 
-    currentFile->content =
+    currentFile->content = //guardar
         ui->textEdit->toPlainText().toStdString();
+
+    currentFile->modifiedDate = time(NULL);
 
     QMessageBox::information(this, "Guardado", "Archivo guardado");
 }

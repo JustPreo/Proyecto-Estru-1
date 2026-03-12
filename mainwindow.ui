@@ -70,7 +70,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="pathLabel"/>
         </item>
         <item>
          <widget class="QPushButton" name="goButton">
@@ -86,7 +86,13 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QTreeWidget" name="treeView"/>
+       <widget class="QTreeWidget" name="treeView">
+        <column>
+         <property name="text">
+          <string>FAVORITES</string>
+         </property>
+        </column>
+       </widget>
       </item>
       <item>
        <widget class="QTreeWidget" name="treeWidget">
@@ -111,19 +117,12 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>METADATA AQUI</string>
+           <string/>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPlainTextEdit" name="plainTextEdit"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="saveFileButton">
-          <property name="text">
-           <string>Save</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>
