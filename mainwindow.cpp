@@ -10,7 +10,7 @@
 #include <iostream>
 #include <QKeyEvent>
 #include <QCloseEvent>
-
+#include <sstream>
 using std::string;
 
 
@@ -75,27 +75,31 @@ void MainWindow::refreshNavigation()
     rootItem->setData(0,Qt::UserRole+1,QVariant::fromValue((void*)root));
     rootItem->setIcon(0,style()->standardIcon(QStyle::SP_DriveHDIcon));
 
-    QTreeWidgetItem* favItem = new QTreeWidgetItem(ui->treeView);
-    favItem->setText(0,"Favorites");
-    favItem->setIcon(0,style()->standardIcon(QStyle::SP_DirHomeIcon));
-    favItem->setData(0,Qt::UserRole,"favorites");
-    favItem->setExpanded(true);
-    favItem->setFlags(Qt::ItemIsEnabled);
 
-    for(int i=0;i<favorites.size();i++)
-    {
-        QTreeWidgetItem* item = new QTreeWidgetItem(favItem);
-        item->setText(0,QString::fromStdString(favorites[i]->name));
-        item->setData(0,Qt::UserRole,"dir");
-        item->setData(0,Qt::UserRole+1,QVariant::fromValue((void*)favorites[i]));
-        item->setIcon(0,style()->standardIcon(QStyle::SP_DirIcon));
-    }
 
     QTreeWidgetItem* trashItem = new QTreeWidgetItem(ui->treeView);
     trashItem->setText(0,"TRASH");
     trashItem->setData(0,Qt::UserRole,"trash");
     trashItem->setData(0,Qt::UserRole+1,QVariant::fromValue((void*)trashDir));
     trashItem->setIcon(0,style()->standardIcon(QStyle::SP_TrashIcon));
+
+    for(int i=0;i<favorites.size();i++)
+    {
+        Directory* fav = favorites[i];
+
+        if(!fav)
+            continue;
+
+        QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeView);
+
+        item->setText(0,QString::fromStdString(fav->name));
+
+        item->setData(0,Qt::UserRole,"dir");
+        item->setData(0,Qt::UserRole+1,QVariant::fromValue((quintptr)fav));
+
+        item->setIcon(0,style()->standardIcon(QStyle::SP_DirIcon));
+    }
+
 }
 
 void MainWindow::refreshTree()
@@ -214,7 +218,10 @@ void MainWindow::restoreNode(OriginFile* node)
         }
     }
 
-    Directory* dir = root;
+    Directory* dir = findDirectoryByPath(node->originalPath);
+
+    if(!dir)
+        dir = root;
 
     node->parent = dir;
 
@@ -281,14 +288,14 @@ void MainWindow::showContextMenu(QPoint pos)
         {
             restore = menu.addAction("Restore");
         }
-        else if(node->isDirectory() ){
-            favorite = menu.addAction("Add to Favorites");
-        }
-
         else
         {
-
             remove = menu.addAction("Delete");
+
+            if(node->isDirectory())
+            {
+                favorite = menu.addAction("Add to Favorites");
+            }
         }
     }
 
@@ -368,7 +375,20 @@ void MainWindow::showContextMenu(QPoint pos)
     {
         Directory* dir = (Directory*)node;
 
-        favorites.push_back(dir);
+        bool exists = false;
+
+        for(int i=0;i<favorites.size();i++)
+        {
+            if(favorites[i] == dir)
+            {
+                exists = true;
+                break;
+            }
+        }
+
+        if(!exists){
+            favorites.push_back(dir);
+            refreshNavigation();}
     }
 }
 
@@ -762,8 +782,10 @@ string MainWindow::getUniqueName(string name)
 
 void MainWindow::collectFavorites(Directory* dir)
 {
-    if(dir->isFavorite && dir->isDirectory())
+    if(dir->isFavorite && dir->isDirectory()){
         favorites.push_back(dir);
+        refreshNavigation();
+    }
 
     for(int i=0;i<dir->children.size();i++)
     {
@@ -1028,6 +1050,41 @@ size_t MainWindow::getFolderSize(Directory* dir)//recusiva inge decia
     }
 
     return total;
+}
+
+Directory* MainWindow::findDirectoryByPath(string path)
+{
+    if(path == "/" || path == "")
+        return root;
+
+    Directory* current = root;
+
+    std::stringstream ss(path);
+    string segment;
+
+    getline(ss,segment,'/'); // vacio antes del primer /
+
+    while(getline(ss,segment,'/'))
+    {
+        bool found = false;
+
+        for(int i=0;i<current->children.size();i++)
+        {
+            OriginFile* child = current->children[i];
+
+            if(child->isDirectory() && child->name == segment)
+            {
+                current = (Directory*)child;
+                found = true;
+                break;
+            }
+        }
+
+        if(!found)
+            return NULL;
+    }
+
+    return current;
 }
 
 //Mas o menos explicacion de lo que quiero hacer para mover nodos con drag'n drop

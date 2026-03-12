@@ -49,6 +49,8 @@ private:
 
     HistoryList history;
 
+
+    Directory* findDirectoryByPath(string path);
     void refreshTree();
     void refreshNavigation();
     void updatePath();

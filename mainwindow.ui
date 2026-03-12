@@ -86,13 +86,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QTreeWidget" name="treeView">
-        <column>
-         <property name="text">
-          <string>FAVORITES</string>
-         </property>
-        </column>
-       </widget>
+       <widget class="QTreeWidget" name="treeView"/>
       </item>
       <item>
        <widget class="QTreeWidget" name="treeWidget">
@@ -122,7 +116,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="plainTextEdit"/>
+         <widget class="QPlainTextEdit" name="plainTextEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
