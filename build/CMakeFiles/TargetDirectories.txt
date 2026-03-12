@@ -1,0 +1,9 @@
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/untitled1.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/edit_cache.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/rebuild_cache.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/list_install_components.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/install.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/install/local.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/install/strip.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/untitled1_autogen_timestamp_deps.dir
+C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/CMakeFiles/untitled1_autogen.dir

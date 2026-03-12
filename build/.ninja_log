@@ -1,0 +1,89 @@
+# ninja log v6
+16	870	7949951006055067	untitled1_autogen/timestamp	ecdc242c5463e304
+16	870	7949951006055067	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+16	870	7949951006055067	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+16	870	7949951006055067	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+903	1821	7949951007209803	CMakeFiles/untitled1.dir/directory.cpp.obj	241a81236548ac52
+898	1755	7949951007159816	CMakeFiles/untitled1.dir/file.cpp.obj	f00a44c975a5342a
+892	1742	7949951007104415	CMakeFiles/untitled1.dir/originfile.cpp.obj	8ad2524511a2a278
+916	1880	7949951007330207	CMakeFiles/untitled1.dir/historylist.cpp.obj	5f53be3e3aa9bc74
+910	1942	7949951007275138	CMakeFiles/untitled1.dir/historynode.cpp.obj	1d76979e90aa3665
+887	4891	7949951007049356	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+875	5318	7949951006933863	CMakeFiles/untitled1.dir/main.cpp.obj	e65a4a453e6d9ca4
+871	5397	7949951006883183	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	d0a3216194ad8b5f
+793	5326	7949942438939501	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+5327	5666	7949942484325934	untitled1.exe	b83f45371d796fd3
+19	209	7949951447733601	untitled1_autogen/timestamp	ecdc242c5463e304
+19	209	7949951447733601	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+19	209	7949951447733601	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+19	209	7949951447733601	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+214	3384	7949951449725969	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+210	4542	7949951449676000	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+4542	4898	7949951492999201	untitled1.exe	b83f45371d796fd3
+17	220	7949952554694177	untitled1_autogen/timestamp	ecdc242c5463e304
+17	220	7949952554694177	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+17	220	7949952554694177	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+17	220	7949952554694177	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+228	3610	7949952556754616	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+222	4716	7949952556694592	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+4716	5089	7949952601637277	untitled1.exe	b83f45371d796fd3
+19	206	7949953081977719	untitled1_autogen/timestamp	ecdc242c5463e304
+19	206	7949953081977719	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+19	206	7949953081977719	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+19	206	7949953081977719	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+212	3286	7949953083919127	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+208	4453	7949953083878923	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+4453	4805	7949953126330419	untitled1.exe	b83f45371d796fd3
+15	184	7949958507061838	untitled1_autogen/timestamp	ecdc242c5463e304
+15	184	7949958507061838	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+15	184	7949958507061838	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+15	184	7949958507061838	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+189	2852	7949958508798999	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+185	3904	7949958508759008	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+3904	4247	7949958545952324	untitled1.exe	b83f45371d796fd3
+17	782	7949960555488180	untitled1_autogen/timestamp	ecdc242c5463e304
+17	782	7949960555488180	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+17	782	7949960555488180	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+17	782	7949960555488180	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+799	4432	7949960556444646	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+788	4792	7949960556344613	CMakeFiles/untitled1.dir/main.cpp.obj	e65a4a453e6d9ca4
+784	5080	7949960556294618	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	d0a3216194ad8b5f
+793	5695	7949960556394650	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+5695	6065	7949960605404697	untitled1.exe	b83f45371d796fd3
+19	182	7949969273426294	untitled1_autogen/timestamp	ecdc242c5463e304
+19	182	7949969273426294	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+19	182	7949969273426294	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+19	182	7949969273426294	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+187	2842	7949969275114783	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+183	3858	7949969275064791	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+3858	4200	7949969311810213	untitled1.exe	b83f45371d796fd3
+18	965	7949975023547800	untitled1_autogen/timestamp	ecdc242c5463e304
+18	965	7949975023547800	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+18	965	7949975023547800	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+18	965	7949975023547800	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+984	4986	7949975024646899	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+972	5350	7949975024526444	CMakeFiles/untitled1.dir/main.cpp.obj	e65a4a453e6d9ca4
+967	5409	7949975024476473	CMakeFiles/untitled1.dir/untitled1_autogen/mocs_compilation.cpp.obj	d0a3216194ad8b5f
+978	6247	7949975024581755	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+6247	6697	7949975077277868	untitled1.exe	b83f45371d796fd3
+16	178	7949975749498071	untitled1_autogen/timestamp	ecdc242c5463e304
+16	178	7949975749498071	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+16	178	7949975749498071	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+16	178	7949975749498071	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+183	2611	7949975751161614	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+179	3633	7949975751121633	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+3633	3985	7949975785665793	untitled1.exe	b83f45371d796fd3
+17	194	7949977163260931	untitled1_autogen/timestamp	ecdc242c5463e304
+17	194	7949977163260931	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+17	194	7949977163260931	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+17	194	7949977163260931	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+199	3072	7949977165091993	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+195	4223	7949977165041658	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+4223	4615	7949977205322613	untitled1.exe	b83f45371d796fd3
+16	203	7949977990579502	untitled1_autogen/timestamp	ecdc242c5463e304
+16	203	7949977990579502	untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+16	203	7949977990579502	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/timestamp	ecdc242c5463e304
+16	203	7949977990579502	C:/Users/elmas/Desktop/ESTRU 1/COSAS QT/PROYECTO/build/untitled1_autogen/mocs_compilation.cpp	ecdc242c5463e304
+209	2847	7949977992514837	CMakeFiles/untitled1.dir/notepad.cpp.obj	669469b2cee477d9
+204	3948	7949977992474840	CMakeFiles/untitled1.dir/mainwindow.cpp.obj	700e026040ce0f02
+3948	4297	7949978029912389	untitled1.exe	b83f45371d796fd3
