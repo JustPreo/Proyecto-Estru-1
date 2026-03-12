@@ -418,11 +418,9 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
     char created[100];
     char modified[100];
 
-    strftime(created,100,"%Y-%m-%d %H:%M",
-             localtime(&node->createdDate));
+    strftime(created,100,"%Y-%m-%d %H:%M",localtime(&node->createdDate));
 
-    strftime(modified,100,"%Y-%m-%d %H:%M",
-             localtime(&node->modifiedDate));
+    strftime(modified,100,"%Y-%m-%d %H:%M",localtime(&node->modifiedDate));
 
     info += "\nCreated: ";
     info += created;
@@ -435,35 +433,40 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
 
 void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item,int)
 {
-    if(!item)
+    if(!item){
         return;
-
+    }
     QVariant data = item->data(0,Qt::UserRole);
 
-    if(!data.isValid())
+    if(!data.isValid()){
         return;
+    }
 
     // recuperar puntero guardado
     quintptr ptr = data.value<quintptr>();
 
-    if(ptr == 0)
+    if(ptr == 0){
         return;
+    }
 
     OriginFile* node = reinterpret_cast<OriginFile*>(ptr);
 
-    if(!node)
+    if(!node){
         return;
+    }
 
     // si es carpeta entrar
     if(node->isDirectory())
     {
         Directory* dir = static_cast<Directory*>(node);
 
-        if(!dir)
+        if(!dir){
             return;
+        }
 
-        if(dir == currentDir)
+        if(dir == currentDir){
             return;
+        }
 
         history.visit(dir);
 
@@ -476,8 +479,9 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item,int)
         // si es archivo abrir editor
         File* file = static_cast<File*>(node);
 
-        if(!file)
+        if(!file){
             return;
+        }
 
         notepad* editor = new notepad(file,this);
         editor->show();
@@ -489,8 +493,9 @@ void MainWindow::on_treeView_itemClicked(QTreeWidgetItem* item,int)
     //es para el lado izquierdo
     QVariant type = item->data(0,Qt::UserRole);
 
-    if(!type.isValid())
+    if(!type.isValid()){
         return;
+    }
 
     QString t = type.toString();
 
@@ -522,13 +527,14 @@ void MainWindow::on_treeView_itemClicked(QTreeWidgetItem* item,int)
 
 void MainWindow::on_backButton_clicked()
 {
-    if(!history.canGoBack()) return;
+    if(!history.canGoBack()){
+        return;
+    }
 
     Directory* dir = history.goBack();
 
     if(dir == NULL)
     {
-        std::cout << "ERROR: history devolvio NULL" << std::endl;
         return;
     }
 
