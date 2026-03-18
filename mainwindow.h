@@ -33,6 +33,8 @@ private slots:
     void on_treeView_itemClicked(QTreeWidgetItem*,int);
     void showContextMenu(QPoint pos);
 
+
+    void goToPath();
     void on_backButton_clicked();
     void on_ForwardButton_clicked();
     void on_goToFatherButton_clicked();
@@ -55,6 +57,9 @@ private:
     void refreshNavigation();
     void updatePath();
 
+
+    void removeFavoritesRecursive(Directory* dir);
+    void restoreFavoritesRecursive(Directory* dir);
     void addToTree(Directory* dir);
 
     size_t getFolderSize(Directory* dir);

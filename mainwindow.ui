@@ -86,7 +86,13 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QTreeWidget" name="treeView"/>
+       <widget class="QTreeWidget" name="treeView">
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
+       </widget>
       </item>
       <item>
        <widget class="QTreeWidget" name="treeWidget">

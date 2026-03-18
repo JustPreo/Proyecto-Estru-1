@@ -33,9 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     trashDir = new Directory("TRASH");
 
-    if(!loadBinary())
+    if(!loadBinary()){
         root = new Directory("/");
-
+    }
     currentDir = root;
     history.visit(root);
 
@@ -53,6 +53,14 @@ MainWindow::MainWindow(QWidget *parent)
     /*connect(ui->treeView,SIGNAL(itemClicked(QTreeWidgetItem*,int)),
             this,SLOT(on_treeView_itemClicked(QTreeWidgetItem*,int)));*/
 
+
+    //botones
+
+    connect(ui->pathLabel, SIGNAL(returnPressed()),
+            this, SLOT(goToPath()));
+
+    connect(ui->goButton, SIGNAL(clicked()),
+            this, SLOT(goToPath()));
 
     refreshNavigation();
     refreshTree();
@@ -83,12 +91,15 @@ void MainWindow::refreshNavigation()
     trashItem->setData(0,Qt::UserRole+1,QVariant::fromValue((void*)trashDir));
     trashItem->setIcon(0,style()->standardIcon(QStyle::SP_TrashIcon));
 
+
+
     for(int i=0;i<favorites.size();i++)
     {
         Directory* fav = favorites[i];
 
-        if(!fav)
+        if(!fav){
             continue;
+        }
 
         QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeView);
 
@@ -104,11 +115,13 @@ void MainWindow::refreshNavigation()
 
 void MainWindow::refreshTree()
 {
-    if(currentDir == NULL)
+    if(currentDir == NULL){
         return;
+    }
 
-    if(!currentDir->isDirectory())
+    if(!currentDir->isDirectory()){
         return;
+    }
 
     ui->treeWidget->clear();
 
@@ -126,8 +139,9 @@ void MainWindow::addToTree(Directory* dir)
     {
         OriginFile* child = dir->children[i];
 
-        if(child == NULL)
+        if(child == NULL){
             continue;
+        }
 
         QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
 
@@ -139,17 +153,20 @@ void MainWindow::addToTree(Directory* dir)
         // esto evita que salga la flecha esa fea
         item->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicator);
 
-        if(child->isDirectory())
+        if(child->isDirectory()){
             item->setIcon(0,style()->standardIcon(QStyle::SP_DirIcon));
-        else
+        }
+        else{
             item->setIcon(0,style()->standardIcon(QStyle::SP_FileIcon));
+        }
     }
 }
 bool MainWindow::nameExists(string name) //lo dice el nombre XD
 {
     for(int i=0;i<currentDir->children.size();i++)
-        if(currentDir->children[i]->name==name)
+        if(currentDir->children[i]->name==name){
             return true;
+        }
 
     return false;
 }
@@ -225,9 +242,37 @@ void MainWindow::restoreNode(OriginFile* node)
 
     node->parent = dir;
 
+    string newName = node->name;
+
+    bool exists = true;
+
+    while(exists)
+    {
+        exists = false;
+
+        for(int i=0;i<dir->children.size();i++)
+        {
+            if(dir->children[i]->name == newName)
+            {
+                exists = true;
+                newName = getUniqueName(newName);
+                break;
+            }
+        }
+    }
+
+    node->name = newName;
+
     dir->children.push_back(node);
 
     node->modifiedDate = time(NULL);
+
+    if(node->isDirectory())
+    {
+        restoreFavoritesRecursive((Directory*)node);
+        refreshNavigation();
+    }
+
 
     refreshTree();
 }
@@ -345,6 +390,8 @@ void MainWindow::showContextMenu(QPoint pos)
     {
         Directory* parent = (Directory*)node->parent;
 
+
+
         if(parent)
         {
             for(int i=0;i<parent->children.size();i++)
@@ -356,6 +403,12 @@ void MainWindow::showContextMenu(QPoint pos)
                 }
             }
         }
+
+        if(node->isDirectory())
+        {
+            removeFavoritesRecursive((Directory*)node);
+        }
+        refreshNavigation();
 
         // guardar path original
         node->originalPath = getCurrentPath();
@@ -369,6 +422,7 @@ void MainWindow::showContextMenu(QPoint pos)
     else if(selected == restore && node)
     {
         restoreNode(node);
+        refreshNavigation();
     }
 
     else if(selected == favorite && node)
@@ -388,24 +442,83 @@ void MainWindow::showContextMenu(QPoint pos)
 
         if(!exists){
             favorites.push_back(dir);
+            dir->isFavorite=true;
             refreshNavigation();}
+    }
+}
+
+
+//auxiliar para lo de favoritos (bug encontrado con inge)
+void MainWindow::removeFavoritesRecursive(Directory* dir)
+{
+    // quitar este nodo si está en favoritos
+    for(int i = 0; i < favorites.size(); i++)
+    {
+        if(favorites[i] == dir)
+        {
+            favorites.erase(favorites.begin() + i);
+            break;
+        }
+    }
+
+    // recorrer hijos
+    for(int i = 0; i < dir->children.size(); i++)
+    {
+        if(dir->children[i]->isDirectory())
+        {
+            removeFavoritesRecursive((Directory*)dir->children[i]);
+        }
+    }
+}
+
+void MainWindow::restoreFavoritesRecursive(Directory* dir)
+{
+    // si era favorito, agregarlo
+    if(dir->isFavorite)
+    {
+        bool exists = false;
+
+        for(int i = 0; i < favorites.size(); i++)
+        {
+            if(favorites[i] == dir)
+            {
+                exists = true;
+                break;
+            }
+        }
+
+        if(!exists){
+            favorites.push_back(dir);
+        }
+    }
+
+    // recorrer hijos
+    for(int i = 0; i < dir->children.size(); i++)
+    {
+        if(dir->children[i]->isDirectory())
+        {
+            restoreFavoritesRecursive((Directory*)dir->children[i]);
+        }
     }
 }
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
 {
-    if(!item)
+    if(!item){
         return;
+    }
 
     quintptr ptr = item->data(0,Qt::UserRole).value<quintptr>();
 
-    if(ptr == 0)
+    if(ptr == 0){
         return;
+    }
 
     OriginFile* node = reinterpret_cast<OriginFile*>(ptr);
 
-    if(!node)
+    if(!node){
         return;
+    }
 
     QString info;
 
@@ -438,7 +551,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
     char created[100];
     char modified[100];
 
-    strftime(created,100,"%Y-%m-%d %H:%M",localtime(&node->createdDate));
+    strftime(created,100,"%Y-%m-%d %H:%M",localtime(&node->createdDate));//Year/Month/Day  Hora/Minuto
 
     strftime(modified,100,"%Y-%m-%d %H:%M",localtime(&node->modifiedDate));
 
@@ -535,7 +648,8 @@ void MainWindow::on_treeView_itemClicked(QTreeWidgetItem* item,int)
 
     if(t=="dir")
     {
-        Directory* dir = reinterpret_cast<Directory*>(item->data(0,Qt::UserRole+1).value<void*>());
+        quintptr ptr = item->data(0,Qt::UserRole+1).value<quintptr>();
+        Directory* dir = reinterpret_cast<Directory*>(ptr);
         currentDir=dir;
         refreshTree();
     }
@@ -564,7 +678,9 @@ void MainWindow::on_backButton_clicked()
 }
 void MainWindow::on_ForwardButton_clicked()
 {
-    if(!history.canGoForward()) return;
+    if(!history.canGoForward()) {
+        return;
+    }
 
     Directory* dir = history.goForward();
 
@@ -576,7 +692,9 @@ void MainWindow::on_ForwardButton_clicked()
 }
 void MainWindow::on_goToFatherButton_clicked()
 {
-    if(currentDir->parent==NULL) return;
+    if(currentDir->parent==NULL){
+        return;
+    }
 
     Directory* parent = (Directory*)currentDir->parent;
 
@@ -592,7 +710,9 @@ void MainWindow::saveBinary()
 {
     std::ofstream out("filesystem.bin", std::ios::binary);
 
-    if(!out.is_open()) return;
+    if(!out.is_open()){
+        return;
+    }
 
     saveNode(out,root);
 
@@ -609,14 +729,19 @@ bool MainWindow::loadBinary()
 {
     std::ifstream in("filesystem.bin",std::ios::binary);
 
-    if(!in.is_open())
+    if(!in.is_open()){
         return false;
+    }
 
-    if(root) delete root;
+    if(root) {
+        delete root;
+    }
 
     root = (Directory*)loadNode(in);
 
-    if(!root) return false;
+    if(!root) {
+        return false;
+    }
 
     int trashCount;
 
@@ -635,14 +760,15 @@ bool MainWindow::loadBinary()
 
     favorites.clear();
     collectFavorites(root);
-
+    refreshNavigation();
     return true;
 }
 
 void MainWindow::saveNode(std::ofstream& out,OriginFile* node)
 {
-    if(!node)
+    if(!node){
         return;
+    }
 
     bool isDir = node->isDirectory();
 
@@ -656,6 +782,13 @@ void MainWindow::saveNode(std::ofstream& out,OriginFile* node)
     // guardar fechas
     out.write((char*)&node->createdDate,sizeof(time_t));
     out.write((char*)&node->modifiedDate,sizeof(time_t));
+
+    bool fav = node->isFavorite;
+    out.write((char*)&fav,sizeof(bool));
+
+    int pathSize = node->originalPath.size();
+    out.write((char*)&pathSize, sizeof(int));
+    out.write(node->originalPath.c_str(), pathSize);
 
     if(isDir)
     {
@@ -696,14 +829,28 @@ OriginFile* MainWindow::loadNode(std::ifstream& in)
 
     OriginFile* node;
 
-    if(isDir)
+    if(isDir){
         node = new Directory(name);
-    else
+    }
+    else{
         node = new File(name);
+    }
 
     // leer fechas
     in.read((char*)&node->createdDate,sizeof(time_t));
     in.read((char*)&node->modifiedDate,sizeof(time_t));
+
+    bool fav;
+    in.read((char*)&fav,sizeof(bool));
+    node->isFavorite = fav;
+
+    int pathSize;
+    in.read((char*)&pathSize, sizeof(int));
+
+    string path(pathSize, ' ');
+    in.read(&path[0], pathSize);
+
+    node->originalPath = path;
 
     if(isDir)
     {
@@ -784,13 +931,13 @@ void MainWindow::collectFavorites(Directory* dir)
 {
     if(dir->isFavorite && dir->isDirectory()){
         favorites.push_back(dir);
-        refreshNavigation();
     }
 
     for(int i=0;i<dir->children.size();i++)
     {
-        if(dir->children[i]->isDirectory())
+        if(dir->children[i]->isDirectory()){
             collectFavorites((Directory*)dir->children[i]);
+        }
     }
 }
 
@@ -799,8 +946,8 @@ string MainWindow::getCurrentPath()
 {
     Directory* temp = currentDir;
 
-    if(temp == root)
-        return "/";
+    if(temp == root){
+        return "/";}
 
     string path = "";
 
@@ -830,8 +977,8 @@ string MainWindow::buildPath(OriginFile* node)
 
 void MainWindow::renameNode(OriginFile* node)
 {
-    if(!node)
-        return;
+    if(!node){
+        return;}
 
     bool ok;
 
@@ -849,6 +996,11 @@ void MainWindow::renameNode(OriginFile* node)
         {
             name += ".txt";
         }
+    }
+
+    if(nameExists(name))
+    {
+        name = getUniqueName(name);
     }
 
     node->name = name;
@@ -875,8 +1027,8 @@ void MainWindow::cutNode(OriginFile* node)
 
 void MainWindow::pasteNode()
 {
-    if(!clipboardNode)
-        return;
+    if(!clipboardNode){
+        return;}
 
     if(clipboardCut)
     {
@@ -976,18 +1128,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         QTreeWidgetItem* item = ui->treeWidget->currentItem();
 
-        if(!item)
-            return;
+        if(!item){
+            return;}
 
         quintptr ptr = item->data(0,Qt::UserRole).value<quintptr>();
 
-        if(ptr == 0)
-            return;
+        if(ptr == 0){
+            return;}
 
         OriginFile* node = reinterpret_cast<OriginFile*>(ptr);
 
-        if(!node)
-            return;
+        if(!node){
+            return;}
 
         copyNode(node);
     }
@@ -997,18 +1149,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         QTreeWidgetItem* item = ui->treeWidget->currentItem();
 
-        if(!item)
+        if(!item){
             return;
+        }
 
         quintptr ptr = item->data(0,Qt::UserRole).value<quintptr>();
 
-        if(ptr == 0)
+        if(ptr == 0){
             return;
+        }
 
         OriginFile* node = reinterpret_cast<OriginFile*>(ptr);
 
-        if(!node)
+        if(!node){
             return;
+        }
 
         cutNode(node);
     }
@@ -1054,8 +1209,9 @@ size_t MainWindow::getFolderSize(Directory* dir)//recusiva inge decia
 
 Directory* MainWindow::findDirectoryByPath(string path)
 {
-    if(path == "/" || path == "")
+    if(path == "/" || path == ""){
         return root;
+    }
 
     Directory* current = root;
 
@@ -1080,11 +1236,36 @@ Directory* MainWindow::findDirectoryByPath(string path)
             }
         }
 
-        if(!found)
-            return NULL;
+        if(!found){
+            return NULL;}
     }
 
     return current;
+}
+
+void MainWindow::goToPath()
+{
+    QString text = ui->pathLabel->text();
+
+    string path = text.toStdString();
+
+    Directory* dir = findDirectoryByPath(path);
+
+    if(dir)
+    {
+        history.visit(dir);
+        currentDir = dir;
+    }
+    else
+    {
+        QMessageBox::warning(this, "Error", "Path no existe");
+
+        currentDir = root;
+        history.visit(root);
+    }
+
+    refreshTree();
+    ui->pathLabel->setText(QString::fromStdString(getCurrentPath()));
 }
 
 //Mas o menos explicacion de lo que quiero hacer para mover nodos con drag'n drop
