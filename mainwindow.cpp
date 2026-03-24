@@ -495,6 +495,28 @@ void MainWindow::showContextMenu(QPoint pos)
         // guardar path original
         node->originalPath = getCurrentPath();
 
+        string newName = node->name;
+
+        bool exists = true;
+
+        while(exists)
+        {
+            exists = false;
+
+            for(int i = 0; i < trashDir->children.size(); i++)
+            {
+                if(trashDir->children[i]->name == newName)
+                {
+                    exists = true;
+                    newName = getUniqueName(newName);
+                    break;
+                }
+            }
+        }
+
+        node->name = newName;
+
+        // mover a trash
         node->parent = trashDir;
         trashDir->children.push_back(node);
 
