@@ -1,12 +1,12 @@
 COSAS QUIE FALTA PROYECTO:
-Drag & Drop functional---------------
-Copiar / Pegar shortcuts
-Copiar / Pegar shortcut y menu
-Búsqueda global todo arbol---------------
-Metadatos completes
-Renombrar
-Vistas del explorador---------------
-Información del archive
-Terminar menu contextual
-Navegacion
+Drag & Drop functional  hecho
+Copiar / Pegar shortcuts  hecho
+Copiar / Pegar shortcut y menu  hecho
+Búsqueda global todo arbol  hecho
+Metadatos completes  hecho
+Renombrar  hecho
+Vistas del explorador  hecho
+Información del archive  hecho
+Terminar menu contextual  hecho
+Navegacion  hecho
 Cambiar historial - hecho
