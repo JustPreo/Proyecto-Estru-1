@@ -872,7 +872,6 @@ void MainWindow::saveNode(std::ofstream& out,OriginFile* node)
     out.write((char*)&nameSize,sizeof(int));
     out.write(node->name.c_str(),nameSize);
 
-    // guardar fechas
     out.write((char*)&node->createdDate,sizeof(time_t));
     out.write((char*)&node->modifiedDate,sizeof(time_t));
 
@@ -1018,7 +1017,7 @@ string MainWindow::getUniqueName(string name)
     return newName;
 }
 
-//sistema de cargado adicional
+//sistema de cargado para los favs
 
 void MainWindow::collectFavorites(Directory* dir)
 {
@@ -1096,7 +1095,6 @@ void MainWindow::renameNode(OriginFile* node)
 
     string name = texttext;
 
-    // solo para archivos
     if(!node->isDirectory())
     {
         if(name.size() < 4 || name.substr(name.size()-4) != ".txt")
@@ -1166,7 +1164,7 @@ void MainWindow::pasteNode()
     {
         OriginFile* copy = cloneNode(clipboardNode);
 
-        // generar nombre único
+        // generar nombre unique
         copy->name = getUniqueName(copy->name);
 
         copy->parent = currentDir;
@@ -1290,7 +1288,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
-size_t MainWindow::getFolderSize(Directory* dir)//recusiva inge decia
+size_t MainWindow::getFolderSize(Directory* dir)//recusiva que el inge decia
 {
     size_t total = 0;
 
@@ -1437,7 +1435,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 
     dragged->name = newName;
 
-    // mover
+    // move
     dragged->parent = targetDir;
     targetDir->children.push_back(dragged);
 
@@ -1488,7 +1486,7 @@ void MainWindow::setViewMode(int mode)
 
         currentIconSize = 16;
 
-        ui->listWidget->setGridSize(QSize()); // 🔥 importante
+        ui->listWidget->setGridSize(QSize());
         ui->listWidget->setSpacing(2);
     }
     else if(mode == 1) // ICONOS
