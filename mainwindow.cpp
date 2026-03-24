@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    draggedNode = NULL;
     root = NULL;
 
     clipboardNode = NULL;
@@ -39,19 +40,27 @@ MainWindow::MainWindow(QWidget *parent)
     currentDir = root;
     history.visit(root);
 
-    ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(ui->treeWidget,SIGNAL(customContextMenuRequested(QPoint)),
-            this,SLOT(showContextMenu(QPoint)));
+    ui->listWidget->setViewMode(QListView::IconMode);
+    ui->listWidget->setDragEnabled(true);
+    ui->listWidget->setAcceptDrops(true);
+    ui->listWidget->viewport()->setAcceptDrops(true);
+    ui->listWidget->setDropIndicatorShown(true);
+    ui->listWidget->setMovement(QListView::Snap);
+    ui->listWidget->setResizeMode(QListView::Adjust);
+    ui->listWidget->viewport()->installEventFilter(this);
 
-    /*connect(ui->treeWidget,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
-            this,SLOT(on_treeWidget_itemDoubleClicked(QTreeWidgetItem*,int)));*/
 
-    connect(ui->treeWidget,SIGNAL(itemClicked(QTreeWidgetItem*,int)),
-            this,SLOT(on_treeWidget_itemClicked(QTreeWidgetItem*,int)));
+    connect(ui->listWidget, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(showContextMenu(QPoint)));
 
-    /*connect(ui->treeView,SIGNAL(itemClicked(QTreeWidgetItem*,int)),
-            this,SLOT(on_treeView_itemClicked(QTreeWidgetItem*,int)));*/
+    connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SLOT(on_listWidget_itemClicked(QListWidgetItem*)));
+
+    connect(ui->listWidget, SIGNAL(itemPressed(QListWidgetItem*)),
+            this, SLOT(on_listWidget_itemPressed(QListWidgetItem*)));
+
 
 
     //botones
@@ -62,6 +71,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->goButton, SIGNAL(clicked()),
             this, SLOT(goToPath()));
 
+    connect(ui->incrementSize, SIGNAL(clicked()),
+            this, SLOT(incrementSize()));
+
+    connect(ui->decrementSize, SIGNAL(clicked()),
+            this, SLOT(decrementSize()));
+
+
+    currentIconSize = 48;
+    setViewMode(0);
     refreshNavigation();
     refreshTree();
 }
@@ -71,6 +89,34 @@ MainWindow::~MainWindow()
     delete root;
     delete trashDir;
     delete ui;
+}
+
+void MainWindow::incrementSize()
+{
+    currentIconSize += 16;
+
+    if(currentIconSize > maxSize)
+        currentIconSize = maxSize;
+
+    ui->listWidget->setIconSize(QSize(currentIconSize, currentIconSize));
+    if(ui->listWidget->viewMode() == QListView::IconMode)
+    {
+        ui->listWidget->setGridSize(QSize(currentIconSize + 20, currentIconSize + 30));
+    }
+}
+
+void MainWindow::decrementSize()
+{
+    currentIconSize -= 16;
+
+    if(currentIconSize < minSize)
+        currentIconSize = minSize;
+
+    ui->listWidget->setIconSize(QSize(currentIconSize, currentIconSize));
+    if(ui->listWidget->viewMode() == QListView::IconMode)
+    {
+        ui->listWidget->setGridSize(QSize(currentIconSize + 20, currentIconSize + 30));
+    }
 }
 
 void MainWindow::refreshNavigation()
@@ -113,6 +159,16 @@ void MainWindow::refreshNavigation()
 
 }
 
+void MainWindow::on_listWidget_itemPressed(QListWidgetItem* item)
+{
+    if(!item) return;
+
+    quintptr ptr = item->data(Qt::UserRole).value<quintptr>();
+    if(ptr == 0) return;
+
+    draggedNode = reinterpret_cast<OriginFile*>(ptr);
+}
+
 void MainWindow::refreshTree()
 {
     if(currentDir == NULL){
@@ -123,7 +179,7 @@ void MainWindow::refreshTree()
         return;
     }
 
-    ui->treeWidget->clear();
+    ui->listWidget->clear();
 
     ui->pathLabel->setText(QString::fromStdString(getCurrentPath()));
 
@@ -143,22 +199,17 @@ void MainWindow::addToTree(Directory* dir)
             continue;
         }
 
-        QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
 
-        item->setText(0,QString::fromStdString(child->name));
+        QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
 
-        // guardar el puntero como entero del size del puntero
-        item->setData(0,Qt::UserRole,QVariant::fromValue((quintptr)child));
+        item->setText(QString::fromStdString(child->name));
 
-        // esto evita que salga la flecha esa fea
-        item->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicator);
+        item->setData(Qt::UserRole, QVariant::fromValue((quintptr)child));
 
-        if(child->isDirectory()){
-            item->setIcon(0,style()->standardIcon(QStyle::SP_DirIcon));
-        }
-        else{
-            item->setIcon(0,style()->standardIcon(QStyle::SP_FileIcon));
-        }
+        if(child->isDirectory())
+            item->setIcon(style()->standardIcon(QStyle::SP_DirIcon));
+        else
+            item->setIcon(style()->standardIcon(QStyle::SP_FileIcon));
     }
 }
 bool MainWindow::nameExists(string name) //lo dice el nombre XD
@@ -180,7 +231,13 @@ void MainWindow::createFolder()
     if(!ok || text.isEmpty())
         return;
 
-    string name = text.toStdString();
+    string name = trim(text.toStdString());
+
+    if(!isValidName(name, false))
+    {
+        QMessageBox::warning(this, "Error", "Nombre de carpeta invalido");
+        return;
+    }
 
     if(nameExists(name))
     {
@@ -204,7 +261,13 @@ void MainWindow::createFile()
     if(!ok || text.isEmpty())
         return;
 
-    string name = text.toStdString();
+    string name = trim(text.toStdString());
+
+    if(!isValidName(name, false))
+    {
+        QMessageBox::warning(this, "Error", "Nombre de archivo invalido");
+        return;
+    }
 
     // agregar .txt
     if(name.size() < 4 || name.substr(name.size()-4) != ".txt")
@@ -279,14 +342,15 @@ void MainWindow::restoreNode(OriginFile* node)
 
 void MainWindow::showContextMenu(QPoint pos)
 {
-    QTreeWidgetItem* item = ui->treeWidget->itemAt(pos);
+    QListWidgetItem* item = ui->listWidget->itemAt(pos);
+
 
     OriginFile* node = NULL;
 
     // si se hizo click en item
     if(item)
     {
-        QVariant data = item->data(0,Qt::UserRole);
+        QVariant data = item->data(Qt::UserRole);
 
         if(data.isValid())
         {
@@ -312,7 +376,15 @@ void MainWindow::showContextMenu(QPoint pos)
     // crear carpeta y archivo siempre disponibles
 
 
+
+
     menu.addSeparator();
+
+    QMenu* viewMenu = menu.addMenu("View");
+
+    QAction* lista = viewMenu->addAction("List View");
+    QAction* iconos = viewMenu->addAction("Icon View");
+    QAction* grandes = viewMenu->addAction("Big Icon View");
 
     if (currentDir != trashDir){
         newFolder = menu.addAction("New Folder");
@@ -339,7 +411,15 @@ void MainWindow::showContextMenu(QPoint pos)
 
             if(node->isDirectory())
             {
-                favorite = menu.addAction("Add to Favorites");
+                Directory* dir = (Directory*)node;
+                if(dir->isFavorite)
+                {
+                    favorite = menu.addAction("Remove from Favorites");
+                }
+                else
+                {
+                    favorite = menu.addAction("Add to Favorites");
+                }
             }
         }
     }
@@ -351,7 +431,7 @@ void MainWindow::showContextMenu(QPoint pos)
         paste = menu.addAction("Paste");
     }
 
-    QAction* selected = menu.exec(ui->treeWidget->viewport()->mapToGlobal(pos));
+    QAction* selected = menu.exec(ui->listWidget->viewport()->mapToGlobal(pos));
 
     if(selected == NULL)
         return;
@@ -369,6 +449,8 @@ void MainWindow::showContextMenu(QPoint pos)
     else if(selected == rename && node)
     {
         renameNode(node);
+        refreshNavigation();
+        //refreshTree();
     }
 
     else if(selected == copy && node)
@@ -429,29 +511,39 @@ void MainWindow::showContextMenu(QPoint pos)
     {
         Directory* dir = (Directory*)node;
 
-        bool exists = false;
-
-        for(int i=0;i<favorites.size();i++)
+        if(dir->isFavorite)
         {
-            if(favorites[i] == dir)
+            // quitar fav
+            for(int i = 0; i < favorites.size(); i++)
             {
-                exists = true;
-                break;
+                if(favorites[i] == dir)
+                {
+                    favorites.erase(favorites.begin() + i);
+                    break;
+                }
             }
+
+            dir->isFavorite = false;
+        }
+        else
+        {
+            favorites.push_back(dir);
+            dir->isFavorite = true;
         }
 
-        if(!exists){
-            favorites.push_back(dir);
-            dir->isFavorite=true;
-            refreshNavigation();}
+        refreshNavigation();
     }
+
+    if(selected == lista) setViewMode(0);
+    else if(selected == iconos) setViewMode(1);
+    else if(selected == grandes) setViewMode(2);
+
 }
 
 
 //auxiliar para lo de favoritos (bug encontrado con inge)
 void MainWindow::removeFavoritesRecursive(Directory* dir)
 {
-    // quitar este nodo si está en favoritos
     for(int i = 0; i < favorites.size(); i++)
     {
         if(favorites[i] == dir)
@@ -461,7 +553,7 @@ void MainWindow::removeFavoritesRecursive(Directory* dir)
         }
     }
 
-    // recorrer hijos
+    // recorre hijos
     for(int i = 0; i < dir->children.size(); i++)
     {
         if(dir->children[i]->isDirectory())
@@ -473,7 +565,7 @@ void MainWindow::removeFavoritesRecursive(Directory* dir)
 
 void MainWindow::restoreFavoritesRecursive(Directory* dir)
 {
-    // si era favorito, agregarlo
+    // si era favorito, agregar
     if(dir->isFavorite)
     {
         bool exists = false;
@@ -502,13 +594,13 @@ void MainWindow::restoreFavoritesRecursive(Directory* dir)
     }
 }
 
-void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
+void MainWindow::on_listWidget_itemClicked(QListWidgetItem* item)
 {
     if(!item){
         return;
     }
 
-    quintptr ptr = item->data(0,Qt::UserRole).value<quintptr>();
+    quintptr ptr = item->data(Qt::UserRole).value<quintptr>();
 
     if(ptr == 0){
         return;
@@ -551,7 +643,8 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
     char created[100];
     char modified[100];
 
-    strftime(created,100,"%Y-%m-%d %H:%M",localtime(&node->createdDate));//Year/Month/Day  Hora/Minuto
+    strftime(created,100,"%Y-%m-%d %H:%M",localtime(&node->createdDate));
+                        //Year/Month/Day  Hora/Minuto
 
     strftime(modified,100,"%Y-%m-%d %H:%M",localtime(&node->modifiedDate));
 
@@ -564,12 +657,12 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* item,int)
     ui->plainTextEdit->setPlainText(info);
 }
 
-void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item,int)
+void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem* item)
 {
     if(!item){
         return;
     }
-    QVariant data = item->data(0,Qt::UserRole);
+    QVariant data = item->data(Qt::UserRole);
 
     if(!data.isValid()){
         return;
@@ -983,11 +1076,25 @@ void MainWindow::renameNode(OriginFile* node)
     bool ok;
 
     QString text = QInputDialog::getText(this,"Rename","New name:",QLineEdit::Normal,QString::fromStdString(node->name),&ok);
-
+    string texttext = text.toStdString();
     if(!ok || text.isEmpty())
         return;
 
-    string name = text.toStdString();
+
+    if(!isValidName(texttext, false))
+    {
+        QMessageBox::warning(this, "Error", "Nombre de archivo invalido");
+        return;
+    }
+
+
+    /*if(texttext.size() < 4 || texttext.substr(texttext.size()-4) != ".txt")
+    {
+        texttext += ".txt";
+    }*/
+
+
+    string name = texttext;
 
     // solo para archivos
     if(!node->isDirectory())
@@ -1126,12 +1233,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     // ctrl c
     if(event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_C)
     {
-        QTreeWidgetItem* item = ui->treeWidget->currentItem();
+        QListWidgetItem* item = ui->listWidget->currentItem();
 
         if(!item){
             return;}
 
-        quintptr ptr = item->data(0,Qt::UserRole).value<quintptr>();
+        quintptr ptr = item->data(Qt::UserRole).value<quintptr>();
 
         if(ptr == 0){
             return;}
@@ -1147,13 +1254,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     // ctrl x
     else if(event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_X)
     {
-        QTreeWidgetItem* item = ui->treeWidget->currentItem();
+        QListWidgetItem* item = ui->listWidget->currentItem();
 
         if(!item){
             return;
         }
 
-        quintptr ptr = item->data(0,Qt::UserRole).value<quintptr>();
+        quintptr ptr = item->data(Qt::UserRole).value<quintptr>();
 
         if(ptr == 0){
             return;
@@ -1268,8 +1375,215 @@ void MainWindow::goToPath()
     ui->pathLabel->setText(QString::fromStdString(getCurrentPath()));
 }
 
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    OriginFile* dragged = draggedNode;
+    if(!dragged) return;
+
+    QListWidgetItem* targetItem = ui->listWidget->itemAt(event->position().toPoint());
+    if(!targetItem) return;
+
+    quintptr targetPtr = targetItem->data(Qt::UserRole).value<quintptr>();
+    if(targetPtr == 0) return;
+
+    OriginFile* targetNode = reinterpret_cast<OriginFile*>(targetPtr);
+    if(!targetNode || !targetNode->isDirectory()) return;
+
+    Directory* targetDir = (Directory*)targetNode;
+
+    // no meter misma carpeta
+    if(isInside(targetDir, dragged)) return;
+
+    // no soltar dir trash
+    if(targetDir == trashDir)
+        return;
+
+    // no mover trash dir
+    if(dragged->parent == trashDir)
+        return;
+
+    // cambio de old gen a new gen
+    Directory* oldParent = (Directory*)dragged->parent;
+    if(oldParent)
+    {
+        for(int i=0;i<oldParent->children.size();i++)
+        {
+            if(oldParent->children[i] == dragged)
+            {
+                oldParent->children.erase(oldParent->children.begin()+i);
+                break;
+            }
+        }
+    }
+
+    // evitar nombres duplicados
+    string newName = dragged->name;
+    bool exists = true;
+
+    while(exists)
+    {
+        exists = false;
+
+        for(int i=0;i<targetDir->children.size();i++)
+        {
+            if(targetDir->children[i]->name == newName)
+            {
+                exists = true;
+                newName = getUniqueName(newName);
+                break;
+            }
+        }
+    }
+
+    dragged->name = newName;
+
+    // mover
+    dragged->parent = targetDir;
+    targetDir->children.push_back(dragged);
+
+    dragged->modifiedDate = time(NULL);
+
+    refreshTree();
+    event->accept();
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if(obj == ui->listWidget->viewport())
+    {
+        if(event->type() == QEvent::Drop)
+        {
+            dropEvent(static_cast<QDropEvent*>(event));
+            return true;
+        }
+        if(event->type() == QEvent::DragEnter)
+        {
+            dragEnterEvent(static_cast<QDragEnterEvent*>(event));
+            return true;
+        }
+    }
+
+    return QMainWindow::eventFilter(obj, event);
+}
+
 //Mas o menos explicacion de lo que quiero hacer para mover nodos con drag'n drop
 /*
         Revisa nodo primero , encuentra padre ,elimina old padre,lo mete al nuevo padre.
         Osea , es como que mueve el nodo en el arbol
 */
+
+void MainWindow::setViewMode(int mode)
+{
+    if(mode == 0) // LISTA
+    {
+        ui->listWidget->setViewMode(QListView::ListMode);
+
+        minSize = 16;
+        maxSize = 32;
+
+        currentIconSize = 16;
+
+        ui->listWidget->setGridSize(QSize()); // 🔥 importante
+        ui->listWidget->setSpacing(2);
+    }
+    else if(mode == 1) // ICONOS
+    {
+        ui->listWidget->setViewMode(QListView::IconMode);
+
+        minSize = 32;
+        maxSize = 96;
+
+        currentIconSize = 48;
+
+        ui->listWidget->setSpacing(5);
+        ui->listWidget->setGridSize(QSize(currentIconSize + 20, currentIconSize + 30));
+    }
+    else if(mode == 2) // GRANDES
+    {
+        ui->listWidget->setViewMode(QListView::IconMode);
+
+        minSize = 64;
+        maxSize = 128;
+
+        currentIconSize = 96;
+
+        ui->listWidget->setSpacing(8);
+        ui->listWidget->setGridSize(QSize(currentIconSize + 30, currentIconSize + 40));
+    }
+
+    if(currentIconSize > maxSize)
+        currentIconSize = maxSize;
+
+    if(currentIconSize < minSize)
+        currentIconSize = minSize;
+
+    ui->listWidget->setIconSize(QSize(currentIconSize, currentIconSize));
+}
+
+//cosas para nombre
+
+string MainWindow::trim(string str)
+{
+    int start = 0;
+    while(start < str.size() && isspace(str[start]))
+        start++;
+
+    int end = str.size() - 1;
+    while(end >= 0 && isspace(str[end]))
+        end--;
+
+    if(start > end) return "";
+
+    return str.substr(start, end - start + 1);
+}
+
+bool MainWindow::isValidName(string name, bool isFile)
+{
+    name = trim(name);
+
+    if(name.empty()){
+        return false;
+    }
+
+    bool soloPuntitos = true;
+
+    for(char c : name)
+    {
+        if(c != '.')
+        {
+            soloPuntitos = false;
+            break;
+        }
+    }
+
+    if(soloPuntitos)
+    {
+        return false;
+    }
+
+    std::string invalid = "*?<>|/";
+
+    for(int i = 0; i < name.size(); i++)
+    {
+        if(invalid.find(name[i]) != string::npos)
+            return false;
+    }
+
+    /*if(!isFile)
+    {
+        if(name.find('.') != string::npos)
+            return false;
+    }*/
+
+    if(name.size() >= 4 && name.substr(name.size() - 4) == ".txt")
+    {
+        return false;
+    }
+
+    return true;
+}

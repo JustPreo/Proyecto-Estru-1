@@ -89,28 +89,18 @@
        <widget class="QTreeWidget" name="treeView">
         <column>
          <property name="text">
-          <string notr="true">1</string>
+          <string> </string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>1</pointsize>
+          </font>
          </property>
         </column>
        </widget>
       </item>
       <item>
-       <widget class="QTreeWidget" name="treeWidget">
-        <property name="sortingEnabled">
-         <bool>true</bool>
-        </property>
-        <property name="wordWrap">
-         <bool>false</bool>
-        </property>
-        <property name="headerHidden">
-         <bool>true</bool>
-        </property>
-        <column>
-         <property name="text">
-          <string notr="true">1</string>
-         </property>
-        </column>
-       </widget>
+       <widget class="QListWidget" name="listWidget"/>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_4">
